@@ -10,7 +10,7 @@ public class ObstacleGenerate : MonoBehaviour
     public static float timeGenerate;
     public static bool generate;
 
-    Direction direction;
+    //Direction direction;
 
     float startX;
 
@@ -28,7 +28,6 @@ public class ObstacleGenerate : MonoBehaviour
     IEnumerator Generate()
     {
         startX = obsPrefab.transform.position.x;
-        direction = Direction.right;
 
         while (generate)
         {
@@ -49,15 +48,15 @@ public class ObstacleGenerate : MonoBehaviour
             
             pos.localScale = new Vector3(pos.localScale.x, randSize, pos.localScale.z);
 
-            if (direction == Direction.right)
+            int rand = Random.Range(0, 2);
+
+            if (rand == 0)
             {
                 pos.position = new Vector3(-startX, 9, 0);
-                direction = Direction.left;
             }
-            else
+            else if(rand == 1)
             {
                 pos.position = new Vector3(startX, 9, 0);
-                direction = Direction.right;
             }
 
             yield return new WaitForSeconds(timeGenerate);

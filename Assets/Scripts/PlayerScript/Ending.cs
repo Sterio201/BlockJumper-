@@ -8,6 +8,7 @@ public class Ending : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip audioClip;
     [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     private void Start()
     {
@@ -27,9 +28,11 @@ public class Ending : MonoBehaviour
         audioSource.PlayOneShot(audioClip);
         ObstacleMove.moving = false;
         ObstacleGenerate.generate = false;
-        transform.GetChild(0).gameObject.SetActive(false);
+
+        spriteRenderer.color = new Color(0f,0f,0f,0f);
+
         particleSystem.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
         panelEnd.SetActive(true);
     }
 }

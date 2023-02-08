@@ -13,6 +13,7 @@ public class ButtonsScript : MonoBehaviour
 
     public void Exit()
     {
-        Application.Quit();
+        //Application.Quit();
+        SceneManager.LoadScene(0);
     }
 }

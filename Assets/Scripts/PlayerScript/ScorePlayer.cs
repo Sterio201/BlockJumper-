@@ -6,14 +6,37 @@ using UnityEngine.UI;
 public class ScorePlayer : MonoBehaviour
 {
     [SerializeField] Text textScore;
-    public static int score;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip audioClip;
 
-    public void ShiftScore()
+    public static Text textScoreStatic;
+    static AudioSource audioSourceStatic;
+    static AudioClip audioClipStatic;
+    static int score;
+
+    private void Start()
+    {
+        score = 0;
+
+        textScoreStatic = textScore;
+        audioSourceStatic = audioSource;
+        audioClipStatic = audioClip;
+    }
+
+    public static void ShiftScore()
     {
         score++;
-        if(textScore.gameObject != null)
+        if(textScoreStatic.gameObject != null)
         {
-            textScore.text = score.ToString();
+            textScoreStatic.text = score.ToString();
+
+            audioSourceStatic.PlayOneShot(audioClipStatic);
+
+            if (score % 20 == 0 && score != 0 && score <= 60)
+            {
+                ObstacleMove.speed += 1f;
+                ObstacleGenerate.timeGenerate -= 0.05f;
+            }
         }
     }
 }

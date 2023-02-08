@@ -2,47 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class JumpPlayer : MonoBehaviour
+public class JumpPlayer : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] Text scoreText;
-
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] AudioClip audioClip;
-
-    Animator animator;
+    [SerializeField] Animator animator;
     Pos pos;
-
     bool readyJump;
 
     private void Start()
     {
-        ScorePlayer.score = 0;
-
-        animator = GetComponent<Animator>();
         pos = Pos.right;
         readyJump = true;
-    }
-
-    public void JumpActivate()
-    {
-        StartCoroutine(Jump());
     }
 
     IEnumerator Jump()
     {
         if (readyJump)
         {
-            audioSource.PlayOneShot(audioClip);
-
-            ScorePlayer.score++;
-            scoreText.text = ScorePlayer.score.ToString();
-
-            if(ScorePlayer.score%20 == 0 && ScorePlayer.score != 0 && ScorePlayer.score <= 60)
-            {
-                ObstacleMove.speed += 4f;
-                ObstacleGenerate.timeGenerate -= 0.12f;
-            }
+            ScorePlayer.ShiftScore();
 
             readyJump = false;
             string nameAnim;
@@ -62,6 +40,11 @@ public class JumpPlayer : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             readyJump = true;
         }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        StartCoroutine(Jump());
     }
 }
 

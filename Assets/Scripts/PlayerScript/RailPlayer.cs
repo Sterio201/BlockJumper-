@@ -13,9 +13,10 @@ public class RailPlayer : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     bool readyShiftRail;
     int currentIdRail;
 
-    private void Start()
+    private void OnEnable()
     {
-        player.transform.position = rails[1].position;
+        player.position = rails[1].position;
+
         readyShiftRail = true;
         currentIdRail = 1;
     }
@@ -37,7 +38,10 @@ public class RailPlayer : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     IEnumerator ShiftRail(int shift)
     {
-        ScorePlayer.ShiftScore();
+        if (ObstacleGenerate.generate)
+        {
+            ScorePlayer.ShiftScore();
+        }
 
         readyShiftRail = false;
         currentIdRail += shift;

@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class JumpPlayer : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] Animator animator;
+    [SerializeField] Transform body;
+
     Pos pos;
     bool readyJump;
 
@@ -16,11 +18,22 @@ public class JumpPlayer : MonoBehaviour, IPointerDownHandler
         readyJump = true;
     }
 
+    void OnEnable()
+    {
+        animator.Play("Idle");
+        pos = Pos.right;
+        body.localPosition = new Vector3(0,0,0);
+        readyJump = true;
+    }
+
     IEnumerator Jump()
     {
         if (readyJump)
         {
-            ScorePlayer.ShiftScore();
+            if (ObstacleGenerate.generate)
+            {
+                ScorePlayer.ShiftScore();
+            }
 
             readyJump = false;
             string nameAnim;

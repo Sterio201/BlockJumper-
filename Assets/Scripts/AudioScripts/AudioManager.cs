@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource audioSource;
+    public AudioSource audioSource;
 
     [SerializeField] Sprite audioOn;
     [SerializeField] Sprite audioOff;
     [SerializeField] Image button;
 
     [SerializeField] AudioType audioType;
+
+    [SerializeField] bool randMusic;
+    [SerializeField] AudioClip[] audioClips;
 
     private void Start()
     {
@@ -68,6 +71,24 @@ public class AudioManager : MonoBehaviour
             {
                 button.sprite = audioOff;
             }
+        }
+    }
+
+    public IEnumerator ShiftMusic(int id)
+    {
+        while(audioSource.volume != 0f)
+        {
+            audioSource.volume -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        Debug.Log("Музыка сменилась");
+        audioSource.clip = audioClips[id];
+
+        while(audioSource.volume != 1f)
+        {
+            audioSource.volume += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 }

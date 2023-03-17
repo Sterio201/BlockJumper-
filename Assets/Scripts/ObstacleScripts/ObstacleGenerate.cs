@@ -11,30 +11,13 @@ public class ObstacleGenerate : MonoBehaviour
     public static bool generate;
 
     float startX;
-    
-    int idGenerate;
 
     private void Start()
     {
-        generate = true;
         timeGenerate = 0.65f;
-
-        if (PlayerPrefs.HasKey("Controller"))
-        {
-            idGenerate = PlayerPrefs.GetInt("Controller");
-        }
-        else
-        {
-            idGenerate = 1;
-        }
     }
 
-    public void StartGenerate()
-    {
-        StartCoroutine(Generate());
-    }
-
-    IEnumerator Generate()
+    public IEnumerator Generate(TypeControl typeControl)
     {
         startX = obsPrefab.transform.position.x;
         int rand = 0;
@@ -42,9 +25,9 @@ public class ObstacleGenerate : MonoBehaviour
 
         while (generate)
         {
-            switch (idGenerate)
+            switch (typeControl)
             {
-                case 0:
+                case TypeControl.jump:
                     randScale = Random.Range(1.5f, 5);
 
                     if (rand == 0)
@@ -60,13 +43,12 @@ public class ObstacleGenerate : MonoBehaviour
 
                     break;
 
-                case 1:
+                case TypeControl.flight:
                     randScale = 0.6f;
                     startX = Random.Range(-1.8f, 1.8f);
-                    Debug.Log(startX);
                     break;
 
-                case 2:
+                case TypeControl.rail:
                     randScale = Random.Range(0.8f, 3);
 
                     int randRail = Random.Range(0, 3);

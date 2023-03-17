@@ -11,11 +11,6 @@ public class Ending : MonoBehaviour
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] MyTargetManager myTarget;
 
-    private void Start()
-    {
-        particleSystem.Stop();
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "obstacle")
@@ -31,7 +26,7 @@ public class Ending : MonoBehaviour
             int countGame = PlayerPrefs.GetInt("target");
             countGame++;
 
-            if(countGame >= 2)
+            if(countGame >= 4)
             {
                 countGame = 0;
                 myTarget.Show();
